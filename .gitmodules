@@ -1,0 +1,3 @@
+[submodule "recognize_anything"]
+	path = recognize_anything
+	url = git@github.com:xinyu1205/recognize-anything.git
