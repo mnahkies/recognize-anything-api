@@ -16,6 +16,24 @@ curl --verbose -F file=@/opt/app/recognize_anything/images/demo/demo1.jpg localh
 Caveat, the image is huge (~20gb, of which ~13gb is weights, ~6gb pip dependencies) as a
 result - though it could probably be slimmed down a bit.
 
+## Dockerhub
+
+This repository is published to dockerhub. You can run it like so
+
+```shell
+docker run -it --rm --gpus all -p 8000:8000 mnahkies/recognize-anything-api
+```
+
+**Note:** this assumes you have
+the [nvidia container runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+installed, but omitting `--gpus all` should still work fine running inference on the CPU.
+
+Then make requests using your client of choice, eg:
+
+```shell
+curl --verbose -F file=@/path/to/image.jpg localhost:8000/
+```
+
 ## Build
 
 Pre-requisites:
