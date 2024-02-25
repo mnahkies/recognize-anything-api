@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.3.0-devel-ubuntu22.04 AS dependencies
+FROM ubuntu:22.04 AS dependencies
 
 RUN apt-get update && apt-get install python3 python3-pip build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget curl git -y
 RUN pip install --upgrade setuptools
