@@ -4,6 +4,8 @@ from typing import List, Optional
 import uvicorn
 import logging
 from PIL import Image
+import rawpy
+import magic
 
 from load_models import load_model
 from contextlib import asynccontextmanager
@@ -44,5 +46,18 @@ async def startup_event():
 @app.post("/")
 async def handle(request: Request, file: UploadFile):
     inference = request.state.inference
-    image = Image.open(file.file)
+
+    if is_raw_image(file):
+        # TODO: may not work for all TIFF files, but tested with Nikon (.nef) and Sony (.arw) files
+        rawImage = rawpy.imread(file.file)
+        rgb = rawImage.postprocess(use_camera_wb=True)
+        image = Image.fromarray(rgb)
+    else:
+        image = Image.open(file.file)
+
     return inference(image)
+
+def is_raw_image(file: UploadFile):
+    result = magic.from_buffer(file.file.read(2048), mime=True)
+    file.file.seek(0)
+    return result == "image/tiff"
