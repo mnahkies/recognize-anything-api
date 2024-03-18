@@ -11,3 +11,5 @@ uvicorn
 fastapi
 python-multipart
 pydantic-settings
+rawpy
+python-magic
